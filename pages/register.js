@@ -1,4 +1,18 @@
+import { useState } from 'react'
+
+
 const Register = () => {
+const [name, setName] = useState('')
+const [email, setEmail] = useState('')
+const [password, setPassword] = useState('')
+const [secret, setSecret] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // check for name ,email,password,secret working
+    console.log(name, email, password, secret);
+  }
+
   return (
     <div className="container-fluid">
       <div className="row py-5 bg-secondary text-light">
@@ -8,38 +22,45 @@ const Register = () => {
       </div>
       <div className="row py-3">
           <div className="col-md-6 offset-md-3">
-            <form >
-              <div className="form-group py-2">
-                <label  className="text-muted"><small>Name</small></label>
-                <input
+            <form  onSubmit={handleSubmit} >
+              <div className="form-group py-2"><small>
+                <label className="text-muted">Name</label></small>
+              <input
+                  value={name}
+                  onChange={(e)=>setName(e.target.value)}
                   type="text"
                   className="form-control"
                   placeholder='Enter Your Name'
                   />
               </div>
-            </form>
-            <form >
-              <div className="form-group py-2">
-                <label  className="text-muted "><small>Email address </small></label>
-                <input
+            
+            
+              <div className="form-group py-2"><small>
+                <label className="text-muted">Email address </label></small>
+              <input
+                  value={email}
+                  onChange={(e)=>setEmail(e.target.value)}
                   type="email"
                   className="form-control"
                   placeholder='Enter Your Email'
                   />
               </div>
-            </form>
-            <form >
-              <div className="form-group py-2">
-                <label  className="text-muted"><small>Your Password</small></label>
-                <input
+         
+            
+              <div className="form-group py-2"><small>
+                <label className="text-muted">Your Password</label></small>
+              <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="true"
                   type="password"
                   className="form-control"
                   placeholder='Enter Password'
                   />
             </div>
 
-            <div className="form-group py-2">
-              <label className="text-muted"><small>Pick a question</small></label>
+            <div className="form-group py-2"><small>
+              <label className="text-muted">Pick a question</label></small>
               <select className="form-control">
                 <option >What is your favourite color ?</option>
                 <option >What is your best friend's name  ?</option>
@@ -50,7 +71,12 @@ const Register = () => {
               </small>
             </div>
             <div className="form-group py-2">
-              <input type="text" placeholder="Write your Answer here" className="form-control" />
+              <input
+                value={secret}
+                onChange={(e) => setSecret(e.target.value)}
+                type="text"
+                placeholder="Write your Answer here"
+                className="form-control" />
             </div>
             <div className="form-group d-grid py-3">
                <button className="btn btn-primary btn-lg">Submit</button>
