@@ -1,6 +1,5 @@
-import { Modal } from 'antd'
 import axios from 'axios'
-import { useRouter } from 'next/dist/client/router'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
@@ -25,7 +24,8 @@ const Login = () => {
           password,
         }
       )
-      Router.push('/')
+      console.log(data)
+      // Router.push('/')
     } catch (err) {
       toast.error(err.response.data)
       setLoading(false)
