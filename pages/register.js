@@ -3,28 +3,40 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import SyncOutLined from '@ant-design/icons'
 
 const Register = () => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [secret, setSecret] = useState('')
+  const [name, setName] = useState('rakshith')
+  const [email, setEmail] = useState('rakshit.s.gowda@gmail.com')
+  const [password, setPassword] = useState('indiana123')
+  const [secret, setSecret] = useState('red')
   const [ok, setOk] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     // check for name ,email,password,secret working
     // console.log(name, email, password, secret);
     try {
-      const { data } = await axios.post('http://localhost:8000/api/register', {
-        name,
-        email,
-        password,
-        secret,
-      })
+      setLoading(true)
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/register`,
+        {
+          name,
+          email,
+          password,
+          secret,
+        }
+      )
+      setName('')
+      setEmail('')
+      setPassword('')
+      setSecret('')
       setOk(data.ok)
+      setLoading(false)
     } catch (err) {
       toast.error(err.response.data)
+      setLoading(false)
     }
   }
 
@@ -35,6 +47,9 @@ const Register = () => {
           <h1>Register </h1>
         </div>
       </div>
+
+      {loading ? <h1>Loading</h1> : ''}
+
       <div className='row py-3'>
         <div className='col-md-6 offset-md-3'>
           <form onSubmit={handleSubmit}>
@@ -101,7 +116,12 @@ const Register = () => {
               />
             </div>
             <div className='form-group d-grid py-3'>
-              <button className='btn btn-primary btn-lg'>Submit</button>
+              <button
+                disabled={!name || !email || !secret || !password}
+                className='btn btn-primary btn-lg'
+              >
+                {loading ? <SyncOutLined spin className='py-1' /> : 'Submit'}
+              </button>
             </div>
           </form>
         </div>
