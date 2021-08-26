@@ -1,10 +1,17 @@
 import { useRouter } from 'next/dist/client/router'
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context'
 
 const Nav = () => {
   const [state, setState] = useContext(UserContext)
+  const [current, setCurrent] = useState('')
+
+  useEffect(() => {
+    process.browser && setCurrent(window.location.pathname)
+  }, [process.browser && window.location.pathname])
+  // console.log(`current => ${current}`)
+
   const router = useRouter()
 
   const logout = () => {
@@ -22,13 +29,21 @@ const Nav = () => {
       style={{ backgroundColor: 'blue' }}
     >
       <Link href='/'>
-        <a className='nav-link text-light logo '>FRNDKAMP</a>
+        <a
+          className={`nav-link text-light logo ${current === '/' && 'active'}`}
+        >
+          FRNDKAMP
+        </a>
       </Link>
 
       {state !== null ? (
         <>
           <Link href='/user/dashboard'>
-            <a className='nav-link text-light'>
+            <a
+              className={`nav-link text-light ${
+                current === '/user/dashboard' && 'active'
+              }`}
+            >
               {state && state.user && state.user.name}
             </a>
           </Link>
@@ -40,11 +55,25 @@ const Nav = () => {
       ) : (
         <>
           <Link href='/login'>
-            <a className='nav-link text-light'>Login</a>
+            <a
+              className={`nav-link text-light ${
+                current === '/login' && 'active'
+              }`}
+            >
+              Login
+            </a>
+            {/* <a className='nav-link text-light'>Login</a> */}
           </Link>
 
           <Link href='/register'>
-            <a className='nav-link text-light'>Register</a>
+            <a
+              className={`nav-link text-light ${
+                current === '/register' && 'active'
+              }`}
+            >
+              Register
+            </a>
+            {/* <a className='nav-link text-light'></a> */}
           </Link>
         </>
       )}
