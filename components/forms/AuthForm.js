@@ -1,4 +1,5 @@
-import SyncOutLined from '@ant-design/icons'
+import SyncOutLined from '@ant-design/icons/SyncOutlined'
+// import { SyncOutlined } from '@ant-design/icons'
 
 const AuthForm = ({
   handleSubmit,
@@ -80,7 +81,7 @@ const AuthForm = ({
               placeholder='Write your Answer here'
               className='form-control'
             />
-          </div>{' '}
+          </div>
         </>
       )}
 

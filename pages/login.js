@@ -1,14 +1,18 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 import AuthForm from '../components/forms/AuthForm'
+import { UserContext } from '../context'
 
 const Login = () => {
   const [email, setEmail] = useState('rakshit.s.gowda@gmail.com')
   const [password, setPassword] = useState('indiana123')
   const [loading, setLoading] = useState(false)
+
+  const [state, setState] = useContext(UserContext)
+
   const router = useRouter()
 
   const handleSubmit = async (e) => {
@@ -24,7 +28,14 @@ const Login = () => {
           password,
         }
       )
-      console.log(data)
+      // update context
+      setState({
+        user: data.user,
+        token: data.token,
+      })
+      // also save in local storage
+      window.localStorage.setItem('auth', JSON.stringify(data))
+      // console.log(data)
       // Router.push('/')
     } catch (err) {
       toast.error(err.response.data)
@@ -40,7 +51,7 @@ const Login = () => {
         </div>
       </div>
 
-      {loading ? <h1>Loading</h1> : ''}
+      {/* {loading ? <h1>Loading</h1> : ''} */}
 
       <div className='row py-3'>
         <div className='col-md-6 offset-md-3'>
