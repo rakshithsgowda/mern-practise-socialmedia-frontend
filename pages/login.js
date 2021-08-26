@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import AuthForm from '../components/forms/AuthForm'
 import { UserContext } from '../context'
@@ -42,6 +42,8 @@ const Login = () => {
       setLoading(false)
     }
   }
+
+  if (state && state.token) router.push('/')
 
   return (
     <div className='container-fluid'>
