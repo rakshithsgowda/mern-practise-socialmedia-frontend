@@ -1,19 +1,20 @@
+import { Modal } from 'antd'
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useContext, useEffect, useState } from 'react'
+import router from 'next/router'
+import { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
-import AuthForm from '../components/forms/AuthForm'
+import ForgotPasswordForm from '../components/forms/ForgotPasswordForm'
 import { UserContext } from '../context'
 
-const Login = () => {
+const ForgotPassword = () => {
+  const [name, setName] = useState('rakshith')
   const [email, setEmail] = useState('rakshit.s.gowda@gmail.com')
   const [password, setPassword] = useState('indiana123')
+  const [secret, setSecret] = useState('red')
+  const [ok, setOk] = useState(false)
   const [loading, setLoading] = useState(false)
-
-  const [state, setState] = useContext(UserContext)
-
-  const router = useRouter()
+  const [state] = useContext(UserContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -21,72 +22,67 @@ const Login = () => {
     // console.log(name, email, password, secret);
     try {
       setLoading(true)
-      const { data } = await axios.post(`/login`, {
+      const { data } = await axios.post(`/register`, {
+        name,
         email,
         password,
+        secret,
       })
-      // update context
-      setState({
-        user: data.user,
-        token: data.token,
-      })
-      // also save in local storage
-      window.localStorage.setItem('auth', JSON.stringify(data))
-      // console.log(data)
-      router.push('/')
+      setName('')
+      setEmail('')
+      setPassword('')
+      setSecret('')
+      setOk(data.ok)
+      setLoading(false)
     } catch (err) {
       toast.error(err.response.data)
       setLoading(false)
     }
   }
-
   if (state && state.token) router.push('/')
-
   return (
     <div className='container-fluid'>
       <div className='row py-5 bg-default-image text-light'>
         <div className='col text-center'>
-          <h1>Login </h1>
+          <h1>Forgot Password </h1>
         </div>
       </div>
 
-      {/* {loading ? <h1>Loading</h1> : ''} */}
+      {loading ? <h1>Loading</h1> : ''}
 
       <div className='row py-3'>
         <div className='col-md-6 offset-md-3'>
-          <AuthForm
+          <ForgotPasswordForm
             handleSubmit={handleSubmit}
+            name={name}
             email={email}
+            secret={secret}
             password={password}
             setEmail={setEmail}
+            setName={setName}
             setPassword={setPassword}
+            setSecret={setSecret}
             loading={loading}
-            page='login'
           />
         </div>
       </div>
-
       <div className='row'>
         <div className='col'>
-          <p className='text-center'>
-            New user ?
-            <Link href='/register'>
-              <a> REGISTER</a>
+          <Modal
+            title='Congratulations!'
+            visible={ok}
+            onCancel={() => setOk(false)}
+            footer={null}
+          >
+            <p>Congrats !! You have login with your new password</p>
+            <Link href='/login'>
+              <a className='btn btn-primary btn-sm'>Login</a>
             </Link>
-          </p>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col'>
-          <p className='text-center'>
-            <Link href='/forgot-password'>
-              <a className='text-danger'> Forgot Password ?</a>
-            </Link>
-          </p>
+          </Modal>
         </div>
       </div>
     </div>
   )
 }
 
-export default Login
+export default ForgotPassword
