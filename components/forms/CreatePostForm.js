@@ -1,4 +1,4 @@
-export default function CreatePostForm() {
+export default function CreatePostForm({ content, setContent, postSubmit }) {
   return (
     <div className='card'>
       <div className='card-body pb-3'>
@@ -6,15 +6,15 @@ export default function CreatePostForm() {
           <textarea
             className='form-control'
             placeholder='Write Something'
-            name=''
-            id=''
-            cols='30'
-            rows='10'
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </form>
       </div>
       <div className='card-footer'>
-        <button className='btn btn-primary btn-sm mt-1'>Post</button>
+        <button onClick={postSubmit} className='btn btn-primary btn-sm mt-1'>
+          Post
+        </button>
       </div>
     </div>
   )
