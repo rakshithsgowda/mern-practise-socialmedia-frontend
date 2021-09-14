@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useRouter } from 'next/dist/client/router'
 import { useContext, useState } from 'react'
+import { toast } from 'react-toastify'
 import CreatePostForm from '../../components/forms/CreatePostForm'
 import UserRoute from '../../components/routes/UserRoute'
 import { UserContext } from '../../context'
@@ -16,10 +17,16 @@ const Home = () => {
     e.preventDefault()
     // console.log('post=>', content)
     try {
-      const { data } = axios.post('/create-post', { content })
+      const { data } = await axios.post('/create-post', { content })
       console.log('create post response => ', data)
-    } catch (error) {
-      console.log(error)
+      if (data.error) {
+        toast.error(data.error)
+      } else {
+        toast.success('Post created')
+        setContent('')
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
 
