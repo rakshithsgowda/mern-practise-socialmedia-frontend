@@ -8,9 +8,8 @@ import ForgotPasswordForm from '../components/forms/ForgotPasswordForm'
 import { UserContext } from '../context'
 
 const ForgotPassword = () => {
-  const [name, setName] = useState('rakshith')
   const [email, setEmail] = useState('rakshit.s.gowda@gmail.com')
-  const [password, setPassword] = useState('indiana123')
+  const [newPassword, setNewPassword] = useState('indiana123')
   const [secret, setSecret] = useState('red')
   const [ok, setOk] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -18,22 +17,28 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // check for name ,email,password,secret working
-    // console.log(name, email, password, secret);
+    // check for  email,new password,secret working
+    // console.log( email, password, secret);
     try {
       setLoading(true)
-      const { data } = await axios.post(`/register`, {
-        name,
+      const { data } = await axios.post(`/forgot-password`, {
         email,
-        password,
+        newPassword,
         secret,
       })
-      setName('')
-      setEmail('')
-      setPassword('')
-      setSecret('')
-      setOk(data.ok)
-      setLoading(false)
+      console.log(`forgot password response data=>`, data)
+
+      if (data.error) {
+        toast.error(data.error)
+        setLoading(false)
+      }
+      if (data.success) {
+        setEmail('')
+        setNewPassword('')
+        setSecret('')
+        setOk(true)
+        setLoading(false)
+      }
     } catch (err) {
       toast.error(err.response.data)
       setLoading(false)
@@ -54,13 +59,11 @@ const ForgotPassword = () => {
         <div className='col-md-6 offset-md-3'>
           <ForgotPasswordForm
             handleSubmit={handleSubmit}
-            name={name}
             email={email}
             secret={secret}
-            password={password}
+            newPassword={newPassword}
             setEmail={setEmail}
-            setName={setName}
-            setPassword={setPassword}
+            setNewPassword={setNewPassword}
             setSecret={setSecret}
             loading={loading}
           />
