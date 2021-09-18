@@ -1,10 +1,15 @@
 import dynamic from 'next/dynamic'
-
+import { CameraOutlined } from '@ant-design/icons'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 // import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
-export default function CreatePostForm({ content, setContent, postSubmit }) {
+export default function CreatePostForm({
+  content,
+  setContent,
+  postSubmit,
+  handleImage,
+}) {
   return (
     <div className='card'>
       <div className='card-body pb-3'>
@@ -18,7 +23,8 @@ export default function CreatePostForm({ content, setContent, postSubmit }) {
           />
         </form>
       </div>
-      <div className='card-footer'>
+
+      <div className='card-footer d-flex justify-content-between text-muted'>
         <button
           disabled={!content}
           onClick={postSubmit}
@@ -26,6 +32,10 @@ export default function CreatePostForm({ content, setContent, postSubmit }) {
         >
           Post
         </button>
+        <label>
+          <CameraOutlined className='mt-2' />
+          <input onChange={handleImage} type='file' accept='images/*' hidden />
+        </label>
       </div>
     </div>
   )

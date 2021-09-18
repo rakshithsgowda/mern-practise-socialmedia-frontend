@@ -30,6 +30,20 @@ const Home = () => {
     }
   }
 
+  const handleImage = async (e) => {
+    const file = e.target.files[0]
+    console.log(file)
+    let formData = new FormData()
+    formData.append('image', file)
+    console.log([...formData])
+    try {
+      const { data } = await axios.post('/upload-image', formData)
+      console.log('uploaded image => ', data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <UserRoute>
       <div className='container-fluid'>
@@ -44,6 +58,7 @@ const Home = () => {
               content={content}
               setContent={setContent}
               postSubmit={postSubmit}
+              handleImage={handleImage}
             />
           </div>
           <div className='col-md-4'>{/* <Sidebar /> */} sidebar</div>
