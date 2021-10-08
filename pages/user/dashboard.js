@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useRouter, userRouter } from 'next/router'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import CreatePostForm from '../../components/forms/CreatePostForm'
 import UserRoute from '../../components/routes/UserRoute'
@@ -12,15 +12,31 @@ const Home = () => {
   const [content, setContent] = useState('')
   const [image, setImage] = useState({})
   const [uploading, setUploading] = useState(false)
+  // posts
+  const [posts, setPosts] = useState([])
   // Route
   const router = useRouter()
+
+  useEffect(() => {
+    if (state && state.token) fetchUserPosts()
+  }, [state && state.token])
+
+  const fetchUserPosts = async () => {
+    try {
+      const { data } = await axios.get('/user-posts')
+      setPosts(data)
+      // console.log('user posts => ', data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const postSubmit = async (e) => {
     e.preventDefault()
     // console.log('post=>', content)
     try {
       const { data } = await axios.post('/create-post', { content, image })
-      console.log('create post response => ', data)
+      // console.log('create post response => ', data)
       if (data.error) {
         toast.error(data.error)
       } else {
@@ -73,6 +89,9 @@ const Home = () => {
               image={image}
             />
           </div>
+
+          <pre>{JSON.stringify(posts, null, 4)}</pre>
+
           <div className='col-md-4'>{/* <Sidebar /> */} sidebar</div>
         </div>
       </div>
