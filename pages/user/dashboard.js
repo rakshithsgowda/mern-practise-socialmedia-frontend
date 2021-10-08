@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useRouter, userRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import PostList from '../../components/cards/PostList'
 import CreatePostForm from '../../components/forms/CreatePostForm'
 import UserRoute from '../../components/routes/UserRoute'
 import { UserContext } from '../../context'
@@ -88,9 +89,11 @@ const Home = () => {
               uploading={uploading}
               image={image}
             />
+            <br />
+            <PostList posts={posts} />
           </div>
 
-          <pre>{JSON.stringify(posts, null, 4)}</pre>
+          {/* <pre>{JSON.stringify(posts, null, 4)}</pre> */}
 
           <div className='col-md-4'>{/* <Sidebar /> */} sidebar</div>
         </div>
