@@ -2,10 +2,19 @@ import renderHTML from 'react-render-html'
 import moment from 'moment'
 import { Avatar } from 'antd'
 import PostImage from '../images/PostImage'
+import { useContext } from 'react'
 
-import { HeartOutlined, HeartFilled, CommentOutlined } from '@ant-design/icons'
+import {
+  HeartOutlined,
+  HeartFilled,
+  CommentOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons'
+import { UserContext } from '../../context/index'
 
 const PostList = ({ posts }) => {
+  const [state] = useContext(UserContext)
   return (
     <>
       {posts &&
@@ -22,12 +31,18 @@ const PostList = ({ posts }) => {
             <div className='card-body'>{renderHTML(post.content)} </div>
             <div className='card-footer'>
               {post.image && <PostImage url={post.image.url} />}
-              <div className='d-flex'>
-                <HeartOutlined className='text-danger pt-2 h5' />
-                <div className='pt-2 ps-3'>like unlike</div>
+              <div className='d-flex pt-2'>
+                <HeartOutlined className='text-danger pt-2 h5 px-2' />
+                <div className='pt-2 px-2'>like unlike</div>
 
-                <CommentOutlined className='text-danger pt-2 h5 ps-5' />
-                <div className='pt-2 ps-3 '>2 comments</div>
+                <CommentOutlined className='text-danger pt-2 h5 px-2' />
+                <div className='pt-2 px-2'>2 comments</div>
+                {state?.user?._id === post?.postedBy?._id && (
+                  <>
+                    <EditOutlined className='text-danger pt-2 h5 px-2 ms-auto' />
+                    <DeleteOutlined className='text-danger pt-2 h5 px-2 ms-auto' />
+                  </>
+                )}
               </div>
             </div>
           </div>
