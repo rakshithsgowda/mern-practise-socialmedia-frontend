@@ -1,12 +1,11 @@
-import axios from 'axios'
-import { useRouter, userRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
+import { UserContext } from '../../context'
+import UserRoute from '../../components/routes/UserRoute'
+import PostForm from '../../components/forms/PostForm'
+import { useRouter } from 'next/router'
+import axios from 'axios'
 import { toast } from 'react-toastify'
 import PostList from '../../components/cards/PostList'
-import UserRoute from '../../components/routes/UserRoute'
-import { UserContext } from '../../context'
-
-import PostForm from '../../components/forms/PostForm'
 
 const Home = () => {
   const [state, setState] = useContext(UserContext)
@@ -54,7 +53,6 @@ const Home = () => {
 
   const handleImage = async (e) => {
     const file = e.target.files[0]
-    // console.log(file)
     let formData = new FormData()
     formData.append('image', file)
     // console.log([...formData])

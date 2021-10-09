@@ -1,9 +1,9 @@
-import axios from 'axios'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
+import axios from 'axios'
 import PostForm from '../../../components/forms/PostForm'
 import UserRoute from '../../../components/routes/UserRoute'
+import { toast } from 'react-toastify'
 
 const EditPost = () => {
   const [post, setPost] = useState({})
@@ -15,8 +15,7 @@ const EditPost = () => {
   const router = useRouter()
   // console.log('router =>', router)
   const _id = router?.query?._id
-
-  console.log(_id)
+  // console.log(_id)
 
   useEffect(() => {
     if (_id) fetchPost()
@@ -35,7 +34,6 @@ const EditPost = () => {
 
   const postSubmit = async (e) => {
     e.preventDefault()
-    console.log('Submit post to update', content, image)
 
     try {
       const { data } = await axios.put(`/update-post/${_id}`, {
@@ -45,8 +43,8 @@ const EditPost = () => {
       if (data.error) {
         toast.error(data.error)
       } else {
-        toast.success('post created')
-        router.push('user/dashboard')
+        toast.success('post updated!')
+        router.push('/user/dashboard')
       }
     } catch (error) {
       console.log(error)
