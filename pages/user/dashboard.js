@@ -3,9 +3,10 @@ import { useRouter, userRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import PostList from '../../components/cards/PostList'
-import CreatePostForm from '../../components/forms/CreatePostForm'
 import UserRoute from '../../components/routes/UserRoute'
 import { UserContext } from '../../context'
+
+import PostForm from '../../components/forms/PostForm'
 
 const Home = () => {
   const [state, setState] = useContext(UserContext)
@@ -82,7 +83,7 @@ const Home = () => {
         </div>
         <div className='row py-3'>
           <div className='col-md-8'>
-            <CreatePostForm
+            <PostForm
               content={content}
               setContent={setContent}
               postSubmit={postSubmit}

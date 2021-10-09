@@ -5,7 +5,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 import 'react-quill/dist/quill.snow.css'
 import { Avatar } from 'antd'
 
-export default function CreatePostForm({
+export default function PostForm({
   content,
   setContent,
   postSubmit,
