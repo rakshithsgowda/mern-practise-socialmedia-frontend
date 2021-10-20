@@ -15,12 +15,27 @@ const Home = () => {
   const [uploading, setUploading] = useState(false)
   // posts
   const [posts, setPosts] = useState([])
+  // people
+  const [people, setPeople] = useState([])
+
   // Route
   const router = useRouter()
 
   useEffect(() => {
-    if (state && state.token) fetchUserPosts()
+    if (state && state.token) {
+      fetchUserPosts()
+      findPeople()
+    }
   }, [state && state.token])
+
+  const findPeople = async () => {
+    try {
+      const { data } = await axios.get('/find-people')
+      setPeople(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const fetchUserPosts = async () => {
     try {
@@ -105,9 +120,9 @@ const Home = () => {
             <PostList posts={posts} handleDelete={handleDelete} />
           </div>
 
-          {/* <pre>{JSON.stringify(posts, null, 4)}</pre> */}
-
-          <div className='col-md-4'>{/* <Sidebar /> */} sidebar</div>
+          <div className='col-md-4'>
+            <pre>{JSON.stringify(people, null, 4)}</pre>
+          </div>
         </div>
       </div>
     </UserRoute>
