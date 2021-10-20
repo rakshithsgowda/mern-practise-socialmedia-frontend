@@ -75,6 +75,7 @@ const AuthForm = ({
           type='email'
           className='form-control'
           placeholder='Enter Your Email'
+          disabled={profileUpdate}
         />
       </div>
 
@@ -122,7 +123,9 @@ const AuthForm = ({
       <div className='form-group d-grid py-3'>
         <button
           disabled={
-            page === 'login'
+            profileUpdate
+              ? loading
+              : page === 'login'
               ? !email || !password || loading
               : !name || !email || !secret || !password || loading
           }

@@ -2,7 +2,7 @@ import { Modal } from 'antd'
 import axios from 'axios'
 import Link from 'next/link'
 import router from 'next/router'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import AuthForm from '../../../components/forms/AuthForm'
 import { UserContext } from '../../../context'
@@ -18,13 +18,24 @@ const ProfileUpdate = () => {
   const [loading, setLoading] = useState(false)
   const [state] = useContext(UserContext)
 
+  useEffect(() => {
+    if (state && state?.user) {
+      // console.log('user from state', state.user)
+      setUsername(state?.user?.username)
+      setAbout(state?.user?.about)
+      setName(state?.user?.name)
+      setEmail(state?.user?.email)
+    }
+  }, [state && state.user])
   const handleSubmit = async (e) => {
     e.preventDefault()
     // check for name ,email,password,secret working
     // console.log(name, email, password, secret);
     try {
       setLoading(true)
-      const { data } = await axios.post(`/register`, {
+      const { data } = await axios.put(`/profile-update`, {
+        username,
+        about,
         name,
         email,
         password,
@@ -34,10 +45,6 @@ const ProfileUpdate = () => {
         toast.error(data.error)
         setLoading(false)
       } else {
-        setName('')
-        setEmail('')
-        setPassword('')
-        setSecret('')
         setOk(data.ok)
         setLoading(false)
       }
@@ -93,7 +100,7 @@ const ProfileUpdate = () => {
           </Modal>
         </div>
       </div>
-      <div className='row'>
+      {/* <div className='row'>
         <div className='col'>
           <p className='text-center'>
             Already registered ?
@@ -102,7 +109,7 @@ const ProfileUpdate = () => {
             </Link>
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
