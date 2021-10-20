@@ -27,6 +27,7 @@ const ProfileUpdate = () => {
       setEmail(state?.user?.email)
     }
   }, [state && state.user])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     // check for name ,email,password,secret working
@@ -41,11 +42,14 @@ const ProfileUpdate = () => {
         password,
         secret,
       })
+
+      console.log('updated respose from backend =>', data)
+
       if (data.error) {
         toast.error(data.error)
         setLoading(false)
       } else {
-        setOk(data.ok)
+        setOk(true)
         setLoading(false)
       }
     } catch (err) {
@@ -93,10 +97,7 @@ const ProfileUpdate = () => {
             onCancel={() => setOk(false)}
             footer={null}
           >
-            <p>You have successfully registered</p>
-            <Link href='/login'>
-              <a className='btn btn-primary btn-sm'>Login</a>
-            </Link>
+            <p>You have successfully Updated your Profile. </p>
           </Modal>
         </div>
       </div>
