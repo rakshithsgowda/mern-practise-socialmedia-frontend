@@ -1,7 +1,6 @@
-import { Modal } from 'antd'
+import { CameraOutlined, LoadingOutlined } from '@ant-design/icons'
+import { Avatar, Modal } from 'antd'
 import axios from 'axios'
-import Link from 'next/link'
-import router from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import AuthForm from '../../../components/forms/AuthForm'
@@ -17,6 +16,9 @@ const ProfileUpdate = () => {
   const [ok, setOk] = useState(false)
   const [loading, setLoading] = useState(false)
   const [state, setState] = useContext(UserContext)
+  // profile Image
+  const [image, setImage] = useState({})
+  const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     if (state && state?.user) {
@@ -25,6 +27,7 @@ const ProfileUpdate = () => {
       setAbout(state?.user?.about)
       setName(state?.user?.name)
       setEmail(state?.user?.email)
+      setImage(state?.user?.image)
     }
   }, [state && state.user])
 
@@ -41,6 +44,7 @@ const ProfileUpdate = () => {
         email,
         password,
         secret,
+        image,
       })
 
       console.log('updated respose from backend =>', data)
@@ -65,6 +69,26 @@ const ProfileUpdate = () => {
     }
   }
 
+  const handleImage = async (e) => {
+    const file = e.target.files[0]
+    let formData = new FormData()
+    formData.append('image', file)
+    // console.log([...formData])
+    setUploading(true)
+    try {
+      const { data } = await axios.post('/upload-image', formData)
+      // console.log('uploaded image => ', data)
+      setImage({
+        url: data.url,
+        public_id: data.public_id,
+      })
+      setUploading(false)
+    } catch (err) {
+      console.log(err)
+      setUploading(false)
+    }
+  }
+
   return (
     <div className='container-fluid'>
       <div className='row py-5 bg-default-image text-light'>
@@ -77,6 +101,23 @@ const ProfileUpdate = () => {
 
       <div className='row py-3'>
         <div className='col-md-6 offset-md-3'>
+          {/* upload image */}
+          <label className='d-flex justify-content-center h6'>
+            {image && image.url ? (
+              <Avatar size={30} src={image.url} className='mt-1' />
+            ) : uploading ? (
+              <LoadingOutlined className='mt-2' />
+            ) : (
+              <CameraOutlined className='mt-2' />
+            )}
+            <input
+              onChange={handleImage}
+              type='file'
+              accept='images/*'
+              hidden
+            />
+          </label>
+
           <AuthForm
             profileUpdate={true}
             username={username}
@@ -108,16 +149,6 @@ const ProfileUpdate = () => {
           </Modal>
         </div>
       </div>
-      {/* <div className='row'>
-        <div className='col'>
-          <p className='text-center'>
-            Already registered ?
-            <Link href='/login'>
-              <a> LOGIN</a>
-            </Link>
-          </p>
-        </div>
-      </div> */}
     </div>
   )
 }
