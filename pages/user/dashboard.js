@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import PostList from '../../components/cards/PostList'
+import People from '../../components/cards/People'
 
 const Home = () => {
   const [state, setState] = useContext(UserContext)
@@ -121,7 +122,10 @@ const Home = () => {
           </div>
 
           <div className='col-md-4'>
-            <pre>{JSON.stringify(people, null, 4)}</pre>
+            <pre>
+              {/* {JSON.stringify(people, null, 4)} */}
+              <People people={people} />
+            </pre>
           </div>
         </div>
       </div>
