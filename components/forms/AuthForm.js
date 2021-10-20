@@ -13,9 +13,43 @@ const AuthForm = ({
   setSecret,
   loading,
   page,
+  username,
+  setUsername,
+  about,
+  setAbout,
+  profileUpdate,
 }) => {
   return (
     <form onSubmit={handleSubmit}>
+      {profileUpdate && (
+        <>
+          <div className='form-group py-2'>
+            <small>
+              <label className='text-muted'>Username</label>
+            </small>
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type='text'
+              className='form-control'
+              placeholder='Enter Your User Name'
+            />
+          </div>
+          <div className='form-group py-2'>
+            <small>
+              <label className='text-muted'>about</label>
+            </small>
+            <input
+              value={about}
+              onChange={(e) => setAbout(e.target.value)}
+              type='text'
+              className='form-control'
+              placeholder='Write about yourself'
+            />
+          </div>
+        </>
+      )}
+
       {page !== 'login' && (
         <div className='form-group py-2'>
           <small>
