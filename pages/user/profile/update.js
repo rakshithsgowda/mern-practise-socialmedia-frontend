@@ -16,7 +16,7 @@ const ProfileUpdate = () => {
   const [secret, setSecret] = useState('')
   const [ok, setOk] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [state] = useContext(UserContext)
+  const [state, setState] = useContext(UserContext)
 
   useEffect(() => {
     if (state && state?.user) {
@@ -49,6 +49,13 @@ const ProfileUpdate = () => {
         toast.error(data.error)
         setLoading(false)
       } else {
+        // update local storage , update user, keep token
+        let auth = JSON.parse(localStorage.getItem('auth'))
+        auth.user = data
+        localStorage.setItem('auth', JSON.stringify(auth))
+        // update context
+        setState({ ...state, user: data })
+
         setOk(true)
         setLoading(false)
       }
