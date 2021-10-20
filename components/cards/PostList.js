@@ -15,7 +15,7 @@ import {
 import { UserContext } from '../../context/index'
 import { useRouter } from 'next/dist/client/router'
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, handleDelete }) => {
   const [state] = useContext(UserContext)
   const router = useRouter()
   return (
@@ -36,17 +36,21 @@ const PostList = ({ posts }) => {
               {post.image && <PostImage url={post.image.url} />}
               <div className='d-flex pt-2'>
                 <HeartOutlined className='text-danger pt-2 h5 px-2' />
-                <div className='pt-2 px-2'>like unlike</div>
+                <div className='pt-2 px-2'>like/unlike</div>
 
                 <CommentOutlined className='text-danger pt-2 h5 px-2' />
                 <div className='pt-2 px-2'>2 comments</div>
+
                 {state?.user?._id === post?.postedBy?._id && (
                   <>
                     <EditOutlined
                       onClick={() => router.push(`/user/post/${post._id}`)}
-                      className='text-danger pt-2 h5 px-2 ms-auto'
+                      className='text-danger pt-2 h5  px-2 ms-auto'
                     />
-                    <DeleteOutlined className='text-danger pt-2 h5 px-2 ms-auto' />
+                    <DeleteOutlined
+                      onClick={() => handleDelete(post)}
+                      className='text-danger pt-2 h5 px-2 me-0'
+                    />
                   </>
                 )}
               </div>
