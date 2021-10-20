@@ -4,20 +4,37 @@ import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { UserContext } from '../../context'
 
-const People = ({ people }) => {
+const People = ({ people, handleFollow }) => {
   const [state] = useContext(UserContext)
   const router = useRouter()
+
+  const imageSource = (user) => {
+    if (user.image) {
+      return user.image?.url
+    } else {
+      return '/images/default.jpg'
+    }
+  }
+
   return (
     <>
+      {/* <pre>{JSON.stringify(people, null, 4)}</pre> */}
       <List
         itemLayout='horizontal'
         dataSource={people}
-        renderItem={(person) => (
+        renderItem={(user) => (
           <List.Item>
             <List.Item.Meta
+              avatar={<Avatar src={imageSource(user)} />}
               title={
                 <div className='d-flex justify-content-between'>
-                  {person.name} <span className='text-primary'>Follow</span>
+                  {user.name}
+                  <span
+                    onClick={() => handleFollow(user)}
+                    className='text-primary pointer'
+                  >
+                    Follow
+                  </span>
                 </div>
               }
             />
