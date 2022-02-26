@@ -9,7 +9,7 @@ import { UserContext } from '../context'
 
 const Register = () => {
   const [name, setName] = useState('rakshith')
-  const [email, setEmail] = useState('rakshit.s.gowda@gmail.com')
+  const [email, setEmail] = useState('raksh@gmail.com')
   const [password, setPassword] = useState('indiana123')
   const [secret, setSecret] = useState('red')
   const [ok, setOk] = useState(false)

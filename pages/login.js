@@ -7,7 +7,7 @@ import AuthForm from '../components/forms/AuthForm'
 import { UserContext } from '../context'
 
 const Login = () => {
-  const [email, setEmail] = useState('rakshit.s.gowda@gmail.com')
+  const [email, setEmail] = useState('raksh@gmail.com')
   const [password, setPassword] = useState('indiana123')
   const [loading, setLoading] = useState(false)
 
